@@ -37,4 +37,7 @@ public class Peliculas {
     @ManyToMany(mappedBy = "peliculases")
     private Set<Actores> actoressss = new LinkedHashSet<>();
 
+    @ManyToMany(mappedBy = "peliculases", cascade = CascadeType.PERSIST)
+    private Set<Ventas> ventases = new LinkedHashSet<>();
+
 }

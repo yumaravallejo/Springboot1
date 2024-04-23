@@ -4,14 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.springboot2.Dto.DirectorDto;
-import org.example.springboot2.Entity.Actores;
-import org.example.springboot2.Entity.Caratulas;
-import org.example.springboot2.Entity.Directores;
-import org.example.springboot2.Entity.Peliculas;
-import org.example.springboot2.Respositories.ActoresRespository;
-import org.example.springboot2.Respositories.CaratulasRepository;
-import org.example.springboot2.Respositories.DirectorRepository;
-import org.example.springboot2.Respositories.PeliculasRepository;
+import org.example.springboot2.Entity.*;
+import org.example.springboot2.Respositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +25,8 @@ public class SpringServices {
     private DirectorRepository directorRepository;
     @Autowired
     private CaratulasRepository caratulasRepository;
+    @Autowired
+    private VentasRepository ventasRepository;
 
     public String insertarPelicula (String nombre, Integer duracion, String tipoPelicula) {
         Peliculas p1 = new Peliculas();
@@ -78,6 +74,14 @@ public class SpringServices {
         Caratulas c1 = new Caratulas();
         c1.setImagen(imagen);
         caratulasRepository.save(c1);
+        return "Se ha insertado correctamente";
+    }
+
+    public String insertarVenta(long idPelicula, String nombreVenta) {
+        Ventas v1 = new Ventas();
+        v1.setIdPelicula(idPelicula);
+        v1.setNomVenta(nombreVenta);
+        ventasRepository.save(v1);
         return "Se ha insertado correctamente";
     }
 

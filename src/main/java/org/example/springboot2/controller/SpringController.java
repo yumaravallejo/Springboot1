@@ -1,5 +1,6 @@
 package org.example.springboot2.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.springboot2.servicio.SpringServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +11,14 @@ import java.time.LocalDate;
 @RestController
 //Controller es el papa de restcontroller --> en @controller tienes que especificar lo que devuelve con @body
                    //RestController --> un controlador que da respuestas de por si (Respond body)
+@RequiredArgsConstructor //Todos los argumentos que haya hazme un constructor pero necesita que el SpringServices sea final
 public class SpringController {
-    @Autowired //Da automáticamente las dependencias
-    private SpringServices springServices;
-    @GetMapping("/insertarPelicula")
+    // @Autowired //Da automáticamente las dependencias
+    // Es lo mismo que poner required
+    private final SpringServices springServices;
+
+    //Para insertar solemos usar los post -- Para coger datos el get
+    @PostMapping("/insertarPelicula/{idDirector}")
     public String insertarPeli(@PathVariable (value = "idDirector") long idDirector,
                             @RequestParam (value="nombre") String nombre,
                            @RequestParam (value="duracion") Integer duracion,
@@ -23,7 +28,7 @@ public class SpringController {
 
     }
 
-    @GetMapping("/insertarActor/{idPelicula}")
+    @PostMapping("/insertarActor/{idPelicula}")
     public String insertarAct (@PathVariable (value = "idPelicula") long idPelicula,
                                @RequestParam (value = "nombreActor") String nombreActor,
                                @RequestParam (value = "apellidosAct") String apellidosAct,
@@ -39,13 +44,19 @@ public class SpringController {
         return springServices.insertarDir(json);
     }
 
-    @GetMapping("/insertarCaratula")
+    @PostMapping("/insertarCaratula/{idPelicula}")
     public String insertarCarat (@PathVariable (value = "idPelicula") long idPelicula,
                                  @RequestParam (value = "imagen") String imagen) {
         return springServices.insertarCaratula(imagen);
 
     }
 
+    @PostMapping("/insertarVenta/{idPelicula}")
+    public String insertarVenta(@PathVariable (value = "idPelicula") long idPelicula,
+                                @RequestParam (value = "nom_venta") String nomVenta) {
+
+        return springServices.insertarVenta(idPelicula, nomVenta);
+    }
 
 
 }
