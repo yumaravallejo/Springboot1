@@ -17,16 +17,18 @@ import java.util.Set;
 public class Directores {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto-increment
     @Id
-    @Column (name="id_director")
+    @Column(name = "id_director")
     private long idDirector;
-    @Column (name = "nombre_dir")
+    @Column(name = "nombre_dir")
     private String nombreDir;
-    @Column (name = "apellido_dir")
+    @Column(name = "apellido_dir")
     private String apellidoDir;
-    @Column (name = "nacimiento_dir")
+    @Column(name = "nacimiento_dir")
     private LocalDate nacimientoDir;
-    @Column (name = "edad_dir")
+    @Column(name = "edad_dir")
     private int edadDir;
 
+    @OneToMany(mappedBy = "directores", orphanRemoval = true)
+    private Set<Peliculas> peliculases = new LinkedHashSet<>();
 
 }

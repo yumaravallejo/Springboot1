@@ -16,11 +16,11 @@ import java.util.Set;
 public class Ventas {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto-increment
     @Id
-    @Column (name="id_ventas")
+    @Column(name = "id_ventas")
     private long idVentas;
-    @Column (name="id_pelicula")
+    @Column(name = "id_pelicula")
     private long idPelicula;
-    @Column (name="nom_venta")
+    @Column(name = "nom_venta")
     private String nomVenta;
 
     @ManyToMany(cascade = CascadeType.PERSIST)

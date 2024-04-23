@@ -18,18 +18,19 @@ import java.util.Set;
 public class Actores {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column (name="id_actor")
+    @Column(name = "id_actor")
     private int idActor;
-    @Column (name="id_pelicula")
+    @Column(name = "id_pelicula")
     private long idPelicula;
-    @Column (name="nombre_actor")
+    @Column(name = "nombre_actor")
     private String nombreActor;
-    @Column (name="apellido_act")
+    @Column(name = "apellido_act")
     private String apellidosAct;
-    @Column (name="nacimiento_act")
+    @Column(name = "nacimiento_act")
     private LocalDate nacimientoAct;
-    @Column (name = "edad_act")
-    private int edadActor;;
+    @Column(name = "edad_act")
+    private int edadActor;
+    ;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "Actores_peliculases",

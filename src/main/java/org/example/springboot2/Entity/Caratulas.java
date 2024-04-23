@@ -1,4 +1,5 @@
 package org.example.springboot2.Entity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,9 +18,9 @@ import java.util.Set;
 public class Caratulas {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto-increment
     @Id
-    @Column (name = "id_caratula")
+    @Column(name = "id_caratula")
     private long idCaratula;
-    @Column (name = "imagen")
+    @Column(name = "imagen")
     private String imagen;
 
     @OneToOne(cascade = CascadeType.PERSIST, optional = false, orphanRemoval = true)

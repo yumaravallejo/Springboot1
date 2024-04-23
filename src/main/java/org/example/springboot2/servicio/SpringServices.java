@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 /*En los servicios crearemos a los métodos*/
 
@@ -20,7 +23,7 @@ public class SpringServices {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private ActoresRespository actoresRespository;
+    private ActoresRepository actoresRepository;
     @Autowired
     private DirectorRepository directorRepository;
     @Autowired
@@ -28,18 +31,30 @@ public class SpringServices {
     @Autowired
     private VentasRepository ventasRepository;
 
-    public String insertarPelicula (String nombre, Integer duracion, String tipoPelicula) {
+    public String insertarPelicula(String nombre, Integer duracion, String tipoPelicula, long idDirector) {
         Peliculas p1 = new Peliculas();
         p1.setNombrePeli(nombre);
         p1.setDuracion(duracion);
         p1.setTipoPelicula(tipoPelicula);
+        p1.setFechCreacion(LocalDate.now());
+        Set<Directores> directores = new HashSet<>();
+        Optional<Directores> d = directorRepository.findById(idDirector);
+        if (d.isPresent()) {
+            Directores d1 = d.get();
+            directores.add(d1);
+            p1.setDirectores(d1);
+        } else {
+            p1.setDirectores(null);
+        }
+
 
         peliculasRepository.save(p1); //Java lo guarda directamente en la base de datos --> Hace un insert dentro de la función
 
         return "Se ha insertado correctamente";
 
     }
-    public String insertarActor (long idPelicula, String nombreActor, String apellidosAct, LocalDate nacimientoAct, int edadActor ) {
+
+    public String insertarActor(long idPelicula, String nombreActor, String apellidosAct, LocalDate nacimientoAct, int edadActor) {
 
         Actores a1 = new Actores();
         a1.setIdPelicula(idPelicula);
@@ -47,11 +62,11 @@ public class SpringServices {
         a1.setApellidosAct(apellidosAct);
         a1.setNacimientoAct(nacimientoAct);
         a1.setEdadActor(edadActor);
-        actoresRespository.save(a1);
+        actoresRepository.save(a1);
         return "Se ha insertado correctamente";
     }
 
-    public String insertarDir (String json) {
+    public String insertarDir(String json) {
         DirectorDto dir;
         try {
             dir = objectMapper.readValue(json, DirectorDto.class);
@@ -70,7 +85,7 @@ public class SpringServices {
         return "Se ha insertado correctamente";
     }
 
-    public String insertarCaratula (String imagen) {
+    public String insertarCaratula(String imagen) {
         Caratulas c1 = new Caratulas();
         c1.setImagen(imagen);
         caratulasRepository.save(c1);
@@ -84,5 +99,6 @@ public class SpringServices {
         ventasRepository.save(v1);
         return "Se ha insertado correctamente";
     }
+
 
 }
